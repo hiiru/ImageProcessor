@@ -3,6 +3,8 @@
 // Licensed under the Apache License, Version 2.0.
 // </copyright>
 
+using System;
+
 namespace ImageProcessorCore.Samplers
 {
     /// <summary>
@@ -18,16 +20,9 @@ namespace ImageProcessorCore.Samplers
         /// <inheritdoc/>
         public float GetValue(float x)
         {
-            if (x < 0)
-            {
-                x = -x;
-            }
-
+            x = Math.Abs(x);
             if (x < 1)
-            {
                 return 1 - x;
-            }
-
             return 0;
         }
     }
