@@ -3,6 +3,8 @@
 // Licensed under the Apache License, Version 2.0.
 // </copyright>
 
+using System;
+
 namespace ImageProcessorCore.Samplers
 {
     /// <summary>
@@ -15,18 +17,11 @@ namespace ImageProcessorCore.Samplers
         public float Radius => 0.5F;
 
         /// <inheritdoc/>
-        public float GetValue(float x)
+        public float GetValue(float input)
         {
-            if (x < 0)
-            {
-                x = -x;
-            }
-
+            var x = Math.Abs(input);
             if (x <= 0.5)
-            {
                 return 1;
-            }
-
             return 0;
         }
     }
