@@ -3,6 +3,8 @@
 // Licensed under the Apache License, Version 2.0.
 // </copyright>
 
+using ImageProcessorCore.Common.Helpers;
+
 namespace ImageProcessorCore.Samplers
 {
     /// <summary>
@@ -13,14 +15,13 @@ namespace ImageProcessorCore.Samplers
     {
         /// <inheritdoc/>
         public float Radius => 2;
+        
+        private static BcPrecomputed pre = new BcPrecomputed(0.26201451F, 0.36899274F);
 
         /// <inheritdoc/>
         public float GetValue(float x)
         {
-            const float B = 0.26201451F;
-            const float C = 0.36899274F;
-
-            return ImageMaths.GetBcValue(x, B, C);
+            return ImageMaths.GetBcValue(x, x * x, pre);
         }
     }
 }

@@ -5,6 +5,7 @@
 
 namespace ImageProcessorCore
 {
+    using Common.Helpers;
     using System;
     using System.Numerics;
 
@@ -43,34 +44,26 @@ namespace ImageProcessorCore
         /// Returns the result of a B-C filter against the given value.
         /// <see href="http://www.imagemagick.org/Usage/filter/#cubic_bc"/>
         /// </summary>
-        /// <param name="x">The value to process.</param>
-        /// <param name="b">The B-Spline curve variable.</param>
-        /// <param name="c">The Cardinal curve variable.</param>
+        /// <param name="input">The value to process.</param>
+        /// <param name="input2">input squared</param>
+        /// <param name="precomputed">pre-computed valued for B-Spline curve and  Cardinal curve variable.</param>
         /// <returns>
         /// The <see cref="float"/>.
         /// </returns>
-        public static float GetBcValue(float x, float b, float c)
+        public static float GetBcValue(float input, float input2, BcPrecomputed precomputed)
         {
-            float temp;
-
-            if (x < 0)
-            {
-                x = -x;
-            }
-
-            temp = x * x;
+            float x = Math.Abs(input);
             if (x < 1)
             {
-                x = ((12 - (9 * b) - (6 * c)) * (x * temp)) + ((-18 + (12 * b) + (6 * c)) * temp) + (6 - (2 * b));
+                x = precomputed.P1 * (x * input2) + (precomputed.P2 * input2) + precomputed.P3;
                 return x / 6;
             }
 
             if (x < 2)
             {
-                x = ((-b - (6 * c)) * (x * temp)) + (((6 * b) + (30 * c)) * temp) + (((-12 * b) - (48 * c)) * x) + ((8 * b) + (24 * c));
+                x = precomputed.O1 * (x * input2) + (precomputed.O2 * input2) + (precomputed.O3 * x) + precomputed.O4;
                 return x / 6;
             }
-
             return 0;
         }
 
