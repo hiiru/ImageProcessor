@@ -3,6 +3,8 @@
 // Licensed under the Apache License, Version 2.0.
 // </copyright>
 
+using System;
+
 namespace ImageProcessorCore.Samplers
 {
     /// <summary>
@@ -16,28 +18,18 @@ namespace ImageProcessorCore.Samplers
         public float Radius => 2;
 
         /// <inheritdoc/>
-        public float GetValue(float x)
+        public float GetValue(float input)
         {
-            // The coefficient.
-            float a = -0.5f;
-
-            if (x < 0)
-            {
-                x = -x;
-            }
-
-            float result = 0;
-
+            var x = Math.Abs(input);
             if (x <= 1)
             {
-                result = (((1.5f * x) - 2.5f) * x * x) + 1;
+                return (((1.5f * x) - 2.5f) * x * x) + 1;
             }
             else if (x < 2)
             {
-                result = (((((a * x) + 2.5f) * x) - 4) * x) + 2;
+                return (((((-0.5f * x) + 2.5f) * x) - 4) * x) + 2;
             }
-
-            return result;
+            return 0;
         }
     }
 }
